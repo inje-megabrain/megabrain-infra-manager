@@ -27,12 +27,10 @@ source ./env.sh
 # sudo systemctl restart docker.service
 
 #This is dependent on your Rancher server
-sudo docker run -d --privileged \ 
---restart=unless-stopped \ 
---net=host -v /etc/kubernetes:/etc/kubernetes \
--v /var/run:/var/run \ 
-rancher/${RANCHER_AGENT_DOCKER_IMAGE} \ # image
---server ${RANCHER_HOST_IP} \ 
+sudo docker run -d rancher/${RANCHER_AGENT_DOCKER_IMAGE} \ 
+--privileged --restart=unless-stopped --net=host \ 
+-v /etc/kubernetes:/etc/kubernetes -v /var/run:/var/run \
+--server ${RANCHER_HOST_IP} \
+--etcd --controlplane --workerz
 # --token ${RANCHER_TOKEN} \ 
 # --ca-checksum ${RANCHER_CA_CHECKSUM} \ 
---etcd --controlplane --workerz
