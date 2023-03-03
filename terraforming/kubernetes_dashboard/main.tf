@@ -86,11 +86,15 @@ resource "kubernetes_cluster_role_binding" "admin-user-crb" {
   }
 }
 
-
 # token
-data "kubernetes_secret_v1" "admin_token" {
-  metadata {
+resource "kubernetes_secret_v1" "admin_token" {
+  metadata {    
     name      = kubernetes_service_account.admin-user-sa.metadata[0].name
     namespace = kubernetes_namespace.kubernetes-dashboard-namespace.metadata[0].name
+    annotations = {
+      "kubernetes.io/service-account.name" = kubernetes_service_account.admin-user-sa.metadata[0].name
+    }
+
   } 
+  type = "kubernetes.io/service-account-token"
 }

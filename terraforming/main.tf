@@ -46,7 +46,7 @@ module "kubernetes_dashboard" {
 #   ingress_domain = var.ingress_domain
 # }
 
-# output "kuberentes_dashboard_token" {
-#   value = module.kubernetes_dashboard.kubernetes-dashboard-token-value
-#   sensitive = true
-# }
+output "kuberentes_dashboard_token" {
+  value = module.kubernetes_dashboard.kubernetes-dashboard-token-value
+  sensitive = true
+}
