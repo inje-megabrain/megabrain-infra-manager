@@ -1,0 +1,71 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-datas-vol
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 1Gi
+---
+# deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mega-wakaboard-db
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: mega-wakaboard-db
+  template:
+    metadata:
+      labels:
+        app: mega-wakaboard-db
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:5.7-debian
+          imagePullPolicy: Always 
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - mountPath: "/var/lib/mysql"
+              name: mysql-datas
+          env:
+            - name: MYSQL_DATABASE
+              value: megatime
+            - name: MYSQL_ROOT_HOST
+              value: "%"
+            - name: MYSQL_ROOT_PASSWORD
+              value: mega123
+            - name: TZ
+              value: "Asia/Seoul"
+      volumes:
+      - name: mysql-datas
+        persistentVolumeClaim:
+          claimName: mysql-datas-vol
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: mega-wakaboard-db
+  labels:
+    app: mega-wakaboard-db
+spec:
+  ports:
+    - protocol : TCP
+      port: 3306
+      targetPort: 3306
+  selector:
+    app: mega-wakaboard-db
