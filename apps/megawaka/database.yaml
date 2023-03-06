@@ -34,7 +34,7 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: mysql:5.7-debian
+          image: mysql:8-debian
           imagePullPolicy: Always 
           ports:
             - containerPort: 3306
