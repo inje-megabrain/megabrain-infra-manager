@@ -63,6 +63,7 @@ metadata:
   labels:
     app: mega-wakaboard-db
 spec:
+  type: NodePort
   ports:
     - protocol : TCP
       port: 3306

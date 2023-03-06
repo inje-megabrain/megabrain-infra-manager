@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: mega-waka-fe
-          image: jongung/waka-fe:1.2
+          image: jongung/waka-fe:1.4
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
@@ -49,9 +49,14 @@ metadata:
     app: mega-wakaboard
 spec:
   ports:
-    - protocol : TCP
+    - name: frontend
+      protocol : TCP
       port: 3000
       targetPort: 3000
+    - name: backend
+      protocol : TCP
+      port: 18083
+      targetPort: 18083
   selector:
     app: mega-wakaboard
 ---
@@ -65,6 +70,10 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: "1000000m"
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
+  tls:
+  - hosts: 
+    - waka.megabrain.kr
+    - wakaserver.megabrain.kr
   rules:
     - host: waka.megabrain.kr
       http:
@@ -76,3 +85,13 @@ spec:
                 name: mega-wakaboard
                 port:
                   number: 3000
+    - host: wakaserver.megabrain.kr
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mega-wakaboard
+                port:
+                  number: 18083
