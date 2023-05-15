@@ -30,20 +30,21 @@ module "kubernetes_dashboard" {
   ingress_domain = var.ingress_domain
 }  
 
+
+module "longhorn" {
+  depends_on = [ module.ingress_nginx ]
+  source = "./longhorn"
+  
+  # vars
+  ingress_domain = var.ingress_domain
+}
+
 module "prometheus_grafana" {
+  depends_on = [ module.ingress_nginx, module.longhorn]
   source = "./prometheus_grafana"
 
   ingress_domain = var.ingress_domain
-
 }
-
-# module "longhorn" {
-#   source = "./longhorn"
-  
-#   # vars
-#   ingress_domain = var.ingress_domain
-# }
-
 
 # module "rook-ceph" {
 #   source = "./rook-ceph"
