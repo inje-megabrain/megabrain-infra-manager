@@ -1,25 +1,25 @@
-# rook-ceph 설치
+# longhorn 설치
 
 resource "kubernetes_namespace" "longhorn-namespace" {
   metadata {
-    name = "longhorn"
+    name = "longhorn-system"
   }
 }
 
-resource "helm_release" "longhorn" {
+resource "helm_release" "longhorn-release" {
   name  = "longhorn"
-  chart = "longhorn/longhorn"
+  chart = "longhorn"
+  repository = "https://charts.longhorn.io"
   version = var.longhorn_version
-  namespace = kubernetes_namespace.longhorn-namespace.metadata[0].name
+  namespace  = kubernetes_namespace.longhorn-namespace.metadata[0].name
   wait_for_jobs = true
-  timeout = 2000 # about 30min
-  
+  timeout = 3000 # about 30min
 }
 
 resource "kubernetes_ingress_v1" "longhorn_ingress" {
   metadata {
     name = "longhorn-ingress"
-    namespace = "longhorn-system"
+    namespace = kubernetes_namespace.longhorn-namespace.metadata[0].name
     annotations = {
       "kubernetes.io/ingress.class": "nginx"
       "nginx.ingress.kubernetes.io/proxy-body-size": "1000000m"

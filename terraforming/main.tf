@@ -31,16 +31,16 @@ module "kubernetes_dashboard" {
 }  
 
 
-module "longhorn" {
+module "storage_longhorn" {
   depends_on = [ module.ingress_nginx ]
-  source = "./longhorn"
+  source = "./storage_longhorn"
   
   # vars
   ingress_domain = var.ingress_domain
 }
 
 module "prometheus_grafana" {
-  depends_on = [ module.ingress_nginx, module.longhorn]
+  depends_on = [ module.ingress_nginx, module.storage_longhorn]
   source = "./prometheus_grafana"
 
   ingress_domain = var.ingress_domain
