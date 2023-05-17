@@ -16,7 +16,6 @@ module "ingress_nginx" {
   source = "./ingress_nginx"
 
   # vars
-  ingress_domain = var.ingress_domain
 }
 
 module "kubernetes_dashboard" {
@@ -26,7 +25,6 @@ module "kubernetes_dashboard" {
   source = "./kubernetes_dashboard"
 
   # vars
-  master_ip = var.master_ip
   ingress_domain = var.ingress_domain
 }  
 

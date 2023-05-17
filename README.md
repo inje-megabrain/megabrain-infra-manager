@@ -70,6 +70,23 @@ cluster-provision 디렉토리의 `provision.sh` 파일을 열어 `K3S_URL_FULL`
 ```
 기록한 k3s token값을 입력하여 Kubernetes의 Worker Node를 구축합니다.
 
+
+#### 1.3. 프로비저닝된 클러스터의 Kubeconfig 로컬 등록
+구축된 클러스터의 kubeconfig를 로컬에 등록합니다.
+
+```shell
+
+# k3s kubeconfig path
+cat /etc/rancher/k3s/k3s.yaml
+
+# k3s kubeconfig copy
+scp root@<IP_OF_LINUX_MACHINE>:/etc/rancher/k3s/k3s.yaml ~/.kube/config
+
+# k3s kubeconfig 등록
+export KUBECONFIG=~/.kube/config
+
+```
+
 ### 2. Rancher 설치 및 운영
 
 Kubernetes 클러스터 생성 및 관리를 위해 Rancher를 설치합니다.
@@ -82,7 +99,7 @@ Kubernetes 클러스터 생성 및 관리를 위해 Rancher를 설치합니다.
 > docker-compose up -d
 ```
 
-### 2.2 기본적인 설치 방법 (권장)
+#### 2.2 기본적인 설치 방법 (권장)
 Rancher를 설치하기전 k3s를 설치합니다.
 
 ```shell
@@ -118,23 +135,6 @@ echo https://${IP_OF_LINUX_NODE}.nip.io/dashboard/?setup\=$(kubectl get secret -
 해당 명령어를 실행하여 대시보드 주소를 출력합니다.
 
 ... 이후 작성중
-
-
-### 4. 프로비저닝된 클러스터의 Kubeconfig 로컬 등록
-구축된 클러스터의 kubeconfig를 로컬에 등록합니다.
-
-```shell
-
-# k3s kubeconfig path
-cat /etc/rancher/k3s/k3s.yaml
-
-# k3s kubeconfig copy
-scp root@<IP_OF_LINUX_MACHINE>:/etc/rancher/k3s/k3s.yaml ~/.kube/config
-
-# k3s kubeconfig 등록
-export KUBECONFIG=~/.kube/config
-
-```
 
 ### 5. Terraforming
 Terraforming을 통해 프로비저닝된 클러스터에 필수적으로 구성되어야할
