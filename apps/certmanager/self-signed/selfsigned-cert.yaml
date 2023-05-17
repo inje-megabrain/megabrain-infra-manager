@@ -1,0 +1,35 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: selfsigned-issuer
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: selfsigned-cert
+  namespace: default
+spec:
+  secretName: selfsigned-cert-tls
+  commonName: megabrain # ca 이름
+  duration: 2880h # 120d
+  renewBefore: 360h # 15d
+  isCA: true
+  usages:
+    - digital signature
+    - key encipherment
+    - server auth
+  issuerRef:
+    name: selfsigned-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: selfsigned-ca-issuer
+  namespace: default
+spec:
+  ca:
+    secretName: selfsigned-cert-tls
