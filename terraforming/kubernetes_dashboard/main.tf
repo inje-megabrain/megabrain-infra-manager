@@ -58,7 +58,7 @@ resource "kubernetes_ingress_v1" "kubernetes_dashboard_ingress" {
 }
 
 # Service Account 생성
-resource "kubernetes_service_account" "admin-user-sa" {
+resource "kubernetes_service_account_v1" "admin-user-sa" {
   depends_on = [
     helm_release.dashboard
   ]
@@ -72,7 +72,7 @@ resource "kubernetes_service_account" "admin-user-sa" {
 # ClusterRoleBinding 
 resource "kubernetes_cluster_role_binding" "admin-user-crb" {
   metadata {
-    name = kubernetes_service_account.admin-user-sa.metadata[0].name
+    name = kubernetes_service_account_v1.admin-user-sa.metadata[0].name
   }
   role_ref {
     api_group = "rbac.authorization.k8s.io"
@@ -81,7 +81,7 @@ resource "kubernetes_cluster_role_binding" "admin-user-crb" {
   }
   subject {
     kind      = "ServiceAccount"
-    name = kubernetes_service_account.admin-user-sa.metadata[0].name
+    name = kubernetes_service_account_v1.admin-user-sa.metadata[0].name
     namespace = kubernetes_namespace.kubernetes-dashboard-namespace.metadata[0].name
   }
 }
@@ -89,10 +89,10 @@ resource "kubernetes_cluster_role_binding" "admin-user-crb" {
 # token
 resource "kubernetes_secret_v1" "admin_token" {
   metadata {    
-    name      = kubernetes_service_account.admin-user-sa.metadata[0].name
+    name      = kubernetes_service_account_v1.admin-user-sa.metadata[0].name
     namespace = kubernetes_namespace.kubernetes-dashboard-namespace.metadata[0].name
     annotations = {
-      "kubernetes.io/service-account.name" = kubernetes_service_account.admin-user-sa.metadata[0].name
+      "kubernetes.io/service-account.name" = kubernetes_service_account_v1.admin-user-sa.metadata[0].name
     }
 
   } 

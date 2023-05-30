@@ -1,9 +1,13 @@
 mega-cluster.yaml
 
+certification/mega-cluster.yaml
+
+
 .terraform
 
 terraform.tfstate
 terraform.tfstate.backup
+
 .terraform.tfstate.lock.info
 
 .terraform.lock.hcl
