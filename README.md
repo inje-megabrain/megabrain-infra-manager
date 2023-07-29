@@ -140,7 +140,7 @@ Kubernetes 클러스터 생성 및 관리를 위해 Rancher를 설치합니다.
 해당 방법은 Ubuntu 22 이하에서만 해주세요.
 
 ```
-> cd ./rancher
+> cd ./cluster-provision/rancher
 
 > docker-compose up -d
 ```
@@ -149,7 +149,7 @@ Kubernetes 클러스터 생성 및 관리를 위해 Rancher를 설치합니다.
 Rancher를 설치하기전 k3s를 설치합니다.
 
 ```shell
-> bash ./rancher/install-k3s.sh
+> bash ./cluster-provision/rancher/install-k3s.sh
 ```
 
 ```shell
