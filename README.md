@@ -2,7 +2,7 @@
 
 이 프로젝트는 Megabrain Kubernetes 인프라를 배포 하고 구성관리 및 Kubernetes를 통한 DevOps를 구축합니다.
 
-- Rancher를 통한 Kubernetes 클러스터 생성 및 관리
+- Rancher 및 K3S를 이용한 Kubernetes 클러스터 생성 및 관리
 - Terraform 및 YAML을 통한 Kubernetes 애플리케이션 배포 및 관리
 - Kubernetes 워크로드 모니터링 및 로깅
 - GitAction CI, ArgoCD를 통한 Devops 운영
