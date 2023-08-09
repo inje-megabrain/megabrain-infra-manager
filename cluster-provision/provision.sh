@@ -2,7 +2,6 @@
 
 ## ENV VARS
 K3S_VERSION="v1.24.13+k3s1"
-K3S_URL_FULL=""
 K3S_TOKEN="" 
 
 if [ -z $1 ]; then
@@ -29,11 +28,6 @@ while getopts b-: OPT; do
     echo "해당 스크립트는 Linux 기반의 쿠버네티스 클러스터 구축을 위해 작성되었습니다."
     echo "created by 박성훈"
     echo ""
-
-    if [ -z $K3S_URL_FULL ]; then
-        echo "K3S_TOKEN이 비어있습니다."
-        exit 1
-    fi
 
     if [ $OPT = - ]; then
         OPT=${OPTARG%%=*}
